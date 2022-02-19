@@ -1,5 +1,6 @@
 #include "BinarySearchTree.h"
 
+
 namespace binary_search_tree {
 
 int BinarySearchTree::InitTree(const std::vector<TreeDataType> &nums) {
@@ -66,6 +67,7 @@ int BinarySearchTree::Traversal(int type) const {
     return 0;
 }
 
+// Recursion version
 void BinarySearchTree::PreorderTraversal(const TreeNode* root) const {
     if (root) {
         std::cout << root->val << " ";
@@ -74,6 +76,68 @@ void BinarySearchTree::PreorderTraversal(const TreeNode* root) const {
     }
 }
 
+// Nonrecursion version
+void BinarySearchTree::PreorderTraversal(const TreeNode* root, int type) const {
+    std::deque<std::pair<TreeNode*, bool>> stack;
+    TreeNode *cur = const_cast<TreeNode*>(root);
+    stack.emplace_back(std::make_pair(cur, false));
+    bool visited;
+    while (!stack.empty()) {
+        root = stack.back().first;
+        visited = stack.back().second;
+        stack.pop_back();
+        if (nullptr == root) {
+            continue;
+        }
+        if (visited) {
+            std::cout << root->val << " ";
+        } else {
+            stack.emplace_back(std::make_pair(root->right, false));
+            stack.emplace_back(std::make_pair(root->left, false));
+            stack.emplace_back(std::make_pair(root, true));
+        }
+    }
+}
+
+// // Simple nonrecursion version of pre-order traverse
+// void BinarySearchTree::PreorderTraversal_Sample(const TreeNode* root, int type) const {
+//     std::deque<TreeNode*> stack;
+//     TreeNode *cur = const_cast<TreeNode*>(root);
+//     while (nullptr != cur || !stack.empty()) {
+//         while (nullptr != cur) {
+//             stack.emplace_back(cur);
+//             std::cout << cur->val << " ";
+//             cur = cur->left;
+//         }
+//         if (!stack.empty()) {
+//             cur = stack.back();
+//             stack.pop_back();
+//             cur = cur->right;
+//         }
+//     }
+// }
+
+// Simple nonrecursion version of pre-order traverse
+// void BinarySearchTree::PreorderTraversal_Sample(const TreeNode* root, int type) const {
+//     std::deque<TreeNode*> stack;
+//     TreeNode *cur = const_cast<TreeNode*>(root);
+//     stack.emplace_back(cur);
+//     bool visited;
+//     while (!stack.empty()) {
+//         cur = stack.back();
+//         stack.pop_back();
+//         if (nullptr == root) {
+//             continue;
+//         }
+//         else {
+//             std::cout << cur->val << " ";
+//             stack.emplace_back(root->right);
+//             stack.emplace_back(root->left);
+//         }
+//     }
+// }
+
+// Recursion version
 void BinarySearchTree::InorderTraversal(const TreeNode *root) const {
     if (root) {
         InorderTraversal(root->left);
@@ -82,11 +146,75 @@ void BinarySearchTree::InorderTraversal(const TreeNode *root) const {
     }
 }
 
+// Nonrecursion version
+void BinarySearchTree::InorderTraversal(const TreeNode* root, int type) const {
+    std::deque<std::pair<TreeNode*, bool>> stack;
+    TreeNode *cur = const_cast<TreeNode*>(root);
+    stack.emplace_back(std::make_pair(root, false));
+    bool visited;
+    while (!stack.empty()) {
+        root = stack.back().first;
+        visited = stack.back().second;
+        if (nullptr == root) {
+            continue;
+        }
+        if (visited) {
+            std::cout << root->val << " ";
+        } else {
+            stack.emplace_back(std::make_pair(root->right, false));
+            stack.emplace_back(std::make_pair(root, true));
+            stack.emplace_back(std::make_pair(root->left, false));
+        }
+    }
+}
+
+// // Simple nonrecursion version of in-order traverse
+// void BinarySearchTree::InorderTraversal(const TreeNode* root, int type) const {
+//     std::deque<TreeNode*> stack;
+//     TreeNode *cur = const_cast<TreeNode*>(root);
+//     while (nullptr != cur || !stack.empty()) {
+//         while (nullptr != cur) {
+//             stack.emplace_back(cur);
+//             cur = cur->left;
+//         }
+//         if (!stack.empty()) {
+//             cur = stack.back();
+//             std::cout << cur->val << " ";
+//             stack.pop_back();
+//             cur = cur->right;
+//         }
+//     }
+// }
+
+// Recursion version
 void BinarySearchTree::PosorderTraversal(const TreeNode *root) const {
     if (root) {
         PosorderTraversal(root->left);
         PosorderTraversal(root->right);
         std::cout << root->val << " ";
+    }
+}
+
+// Nonrecursion version
+void BinarySearchTree::PosorderTraversal(const TreeNode* root, int type) const {
+    std::deque<std::pair<TreeNode*, bool>> stack;
+    TreeNode *cur = const_cast<TreeNode*>(root);
+    stack.emplace_back(std::make_pair(root, false));
+    bool visited;
+    while (!stack.empty()) {
+        root = stack.back().first;
+        visited = stack.back().second;
+        stack.pop_back();
+        if (nullptr == root) {
+            continue;
+        }
+        if (visited) {
+            std::cout << root->val << " ";
+        } else {
+            stack.emplace_back(std::make_pair(root, true));
+            stack.emplace_back(std::make_pair(root->right, false));
+            stack.emplace_back(std::make_pair(root->left, false));
+        }
     }
 }
 

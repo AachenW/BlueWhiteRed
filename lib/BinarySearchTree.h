@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <deque>
 
 typedef int TreeDataType;
 
@@ -20,13 +21,15 @@ class BinarySearchTree{
 public:
     BinarySearchTree() = default;
     BinarySearchTree(TreeDataType val);
-    ~BinarySearchTree() { DeleteTree(root); };
+    ~BinarySearchTree() { DeleteTree(root); std::cout << "BST has been deleted ..." << std::endl; };
 
 public:
     int InitTree(const std::vector<TreeDataType> &nums);
     int Insert(const TreeDataType &val);
     int Traversal(int type) const;
 
+    TreeNode *GetRoot() const { return this->root; };
+    void SetRoot(TreeNode *root) { this->root = root; }
 //    TreeNode* Search(TreeNode *pNode, TreeDataType val);
 
 protected:
@@ -34,6 +37,9 @@ protected:
     void PreorderTraversal(const TreeNode *pNode) const;
     void InorderTraversal(const TreeNode *pNode) const;
     void PosorderTraversal(const TreeNode *pNode) const;
+    void PreorderTraversal(const TreeNode *pNode, int type) const;
+    void InorderTraversal(const TreeNode *pNode, int type) const;
+    void PosorderTraversal(const TreeNode *pNode, int type) const;
     void LevelTraversal(const TreeNode *pNode) const;
     void LevelTraversal(const TreeNode *pNode, int level) const;
     int GetMaxDepth() const;
@@ -43,7 +49,7 @@ protected:
     void DeleteTree(TreeNode *pNode);
 
 private:
-    TreeNode *root;
+    TreeNode *root{nullptr};
     bool flag;
 };
 }

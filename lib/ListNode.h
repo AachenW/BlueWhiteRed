@@ -23,8 +23,8 @@ public:
         head->next = nullptr;
     }
 
-    void createList(std::vector<int> &nums, const int &type);
-    void insertList(int &data);
+    void createList(const std::vector<int> &nums, const int &type);
+    void insertList(const int &data);
     void travelList();
     int addNode();
     void deleteData(int &addNum);
@@ -39,7 +39,7 @@ private:
 };
 
 // 头插法
-inline void List::insertList(int &data) {
+inline void List::insertList(const int &data) {
     ListNode *cur = new ListNode(data, head->next);
     head->next = cur;
 }
@@ -48,7 +48,7 @@ inline void List::insertList(int &data) {
 nums: vector stored data to insert.
 type: 0: insert from head, 1: insert from tail
 */
-inline void List::createList(std::vector<int> &nums, const int &type = 1) {
+inline void List::createList(const std::vector<int> &nums, const int &type = 1) {
     if (0 == type) {
         for (auto it = nums.begin(); it != nums.end(); ++it) {
             insertList(*it);
