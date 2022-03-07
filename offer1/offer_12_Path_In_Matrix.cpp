@@ -15,7 +15,6 @@ class Solution {
     static constexpr int dirs[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 public:
     bool exist(std::vector<std::vector<char>> &board, std::string &word) {
-        std::string combination;
         int flag = 0;
         rows = board.size();
         cols = board[0].size();
@@ -25,7 +24,6 @@ public:
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 flag |= backtrack(board, word, i, j, 0);
-                combination.clear();
             }
         }
         return flag;

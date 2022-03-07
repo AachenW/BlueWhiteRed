@@ -29,7 +29,6 @@ struct TreeNode {
 
 namespace leetcode_cpp {
 class Solution {
-    int targetSum = 0;
 public:
     int pathSum(TreeNode *root, int targetSum) {
         if (nullptr == root) {

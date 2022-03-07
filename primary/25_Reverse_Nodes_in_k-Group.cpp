@@ -31,8 +31,8 @@ public:
             ListNode *start = pre->next;        // 翻转列表的首节点
             ListNode *next = end->next;         // 未翻转部分首节点
             end->next = nullptr;
-            pre->next = reverseList(start);
-            start->next = next;
+            pre->next = reverseList(start); // 返回翻转后的头结点
+            start->next = next; // start为翻转后的尾节点
             pre = start;
             end = start;
         }

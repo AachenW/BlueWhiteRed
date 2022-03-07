@@ -24,23 +24,18 @@ namespace leetcode_cpp {
 class Solution {
 public:
     int change(int amount, std::vector<int> &coins) {
-        int minChange = INT_MAX;
-        std::vector<int> cnt;
-        for (const auto &coin: coins) {
-            cnt[coin] = 1;
-            if (coin < minChange) {
-                minChange = coin;
+        // dp[x] 表示金额之和等于 x 的硬币组合数
+        std::vector<int> dp(amount + 1);
+        dp[0] = 1;
+
+        // 因为外层循环是遍历数组 coins 的值，内层循环是遍历不同的金额之和，在计算 dp[i] 的值时，可以确保金额之和等于i的硬币面额的顺序，由于顺序确定，因此不会重复计算不同的排列。
+        for (const int coin: coins) {
+            for (int i = coin; i <= amount; ++i) {
+                dp[i] += dp[i - coin];
             }
         }
 
-        for (int i = 1; i <= amount; ++i) {
-            for (const auto &coin: coins) {
-                if (0 != cnt[i - coin]) {
-                    cnt[i] += cnt[i - coin];
-                }
-            }
-        }
-        return cnt[amount - 1];
+        return dp[amount];
     }
 };
 }

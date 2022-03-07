@@ -4,6 +4,8 @@
 #include <unordered_set>
 #include "../lib/ListNode.h"
 #include <unordered_map>
+#include <list>
+
 /*
 @
 LeetCode 热题 HOT 100
@@ -59,12 +61,12 @@ public:
             DLinkedNode *node = new DLinkedNode(key, value);    // 如果key不存在，创建一个新的节点
             cache[key] = node;  // 添加进哈希表
             addToHead(node);    // 添加至双向链表的头部
-            ++size;
-            if (size > capacity) {
+            if (size <= 0) {
                 DLinkedNode *removed = removeTail();            // 如果超出容量，删除双向链表的尾部节点
                 cache.erase(removed->_key);
                 delete removed;                                 // 删除哈希表中对应的项
                 removed = nullptr;
+            } else {
                 --size;
             }
         } else {
@@ -75,6 +77,9 @@ public:
     }
 private:
     void moveToHead(DLinkedNode *node) {
+        if(node->prev == head) {
+            return;
+        }
         removeNode(node);
         addToHead(node);
     }
@@ -103,5 +108,60 @@ private:
     int capacity;
     DLinkedNode *head;
     DLinkedNode *tail;
+};
+
+struct Node
+{
+    Node(int k = 0, int v = 0) : key(k), value(v) {}
+    int key;
+    int value;
+};
+class LRUCache {
+public:
+    LRUCache(int capacity) {
+        cap = capacity;
+    }
+
+    void add(int key, int val) {
+        L.emplace_front(new Node(key, val));
+        H[key] = L.begin();
+        if (L.size() > cap) {
+            auto last = L.end();
+            --last;
+            remove(last);
+        }
+    }
+
+    int remove(std::list<Node*>::iterator &iter) {
+        int key = (*iter)->key;
+        int val = (*iter)->value;
+        L.erase(iter);
+        H.erase(key);
+        return val;
+    }
+
+    void set(int key, int val) {
+        auto iter = H.find(key);
+        if (iter != H.end()) {
+            remove(iter->second);
+        }
+        add(key, val);
+    }
+
+    int get(int key) {
+        int val = 0;
+        auto iter = H.find(key);
+        if (iter != H.end()) {
+            val = remove(iter->second);
+            add(key, val);
+            return val;
+        }
+        return -1;
+    }
+
+private:
+    int cap;
+    std::list<Node*> L;
+    std::unordered_map<int, std::list<Node*>::iterator> H;
 };
 }

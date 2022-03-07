@@ -16,7 +16,7 @@ class Solution {
 public:
     int largestRectangleArea(std::vector<int> &heights) {
         int hSize = heights.size();
-        std::vector<int> mono_stack;
+        std::vector<int> mono_stack;    // 栈内存储的为递增序列
         mono_stack.emplace_back(-1);
         int maxArea = 0;
         for (int i = 0; i < hSize; ++i) {

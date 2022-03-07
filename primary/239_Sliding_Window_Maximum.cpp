@@ -7,23 +7,19 @@ namespace leetcode_cpp {
 class Solution {
 public:
     std::vector<int> maxSlidingWindow(std::vector<int> &nums, int k) {
-        int nSize = nums.size();
-        std::priority_queue<std::pair<int, int>> pq;
-
+        int n = nums.size();
+        std::priority_queue<std::pair<int, int>> q;
         for (int i = 0; i < k; ++i) {
-            pq.emplace(i, nums[i]);
+            q.emplace(nums[i], i);
         }
-
-        std::vector<int> ans;
-        ans.emplace_back(pq.top().second);
-        for (int i = k; i < nSize; ++i) {
-            pq.emplace(i, nums[i]);
-            while (pq.top().first <= i - k) {
-                pq.pop();
+        std::vector<int> ans = {q.top().first};
+        for (int i = k; i < n; ++i) {
+            q.emplace(nums[i], i);
+            while (q.top().second <= i - k) {
+                q.pop();
             }
-            ans.emplace_back(pq.top().second);
+            ans.push_back(q.top().first);
         }
-
         return ans;
     }
 };

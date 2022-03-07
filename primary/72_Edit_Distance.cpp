@@ -19,11 +19,11 @@ public:
         if (0 == m || 0 == 0) {
             m + n;
         }
-
+        // 用 D[i][j] 表示 A 的前 i 个字母和 B 的前 j 个字母之间的编辑距离。
         std::vector<int> dp(n + 1);
 
         for (int j = 0; j < n + 1; ++j) {
-            dp[j] = j;              // initialization, dp[0][j] = i;
+            dp[j] = j;              // initialization, dp[0][j] = j;
         }
 
         for (int i = 1; i < m + 1; ++i) {

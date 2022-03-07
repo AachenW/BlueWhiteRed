@@ -83,7 +83,7 @@ void* consume(void *arg) {
         bottom = (bottom + 1) % MAX;
         printf("now bottom is %d\n", bottom);
         pthread_mutex_unlock(&mutex);
-        pthread_cond_signal(&noempty);
+        pthread_cond_signal(&nofull);
     }
 
     return (void*)2;

@@ -149,12 +149,12 @@ void BinarySearchTree::InorderTraversal(const TreeNode *root) const {
 // Nonrecursion version
 void BinarySearchTree::InorderTraversal(const TreeNode* root, int type) const {
     std::deque<std::pair<TreeNode*, bool>> stack;
-    TreeNode *cur = const_cast<TreeNode*>(root);
     stack.emplace_back(std::make_pair(root, false));
     bool visited;
     while (!stack.empty()) {
         root = stack.back().first;
         visited = stack.back().second;
+        stack.pop_back();
         if (nullptr == root) {
             continue;
         }

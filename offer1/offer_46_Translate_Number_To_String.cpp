@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <functional>
+
 /*
 @
 LeetCode 剑指offer
@@ -20,11 +22,11 @@ public:
         std::string src = std::to_string(num);
         int sLen = src.length();
 
-        // dp[i] 表示以第 i 位结尾的前缀串翻译的方案数
+        // dp[i] 表示以第 i 位结尾的数字的翻译方案数
         std::vector<int> dp(sLen + 1);
         // initialization
-        dp[0] = 1;
-        dp[1] = 1;
+        dp[0] = 1;  // 无数字
+        dp[1] = 1;  // 第一位数字
         for (int i = 2; i <= sLen; ++i) {
             std::string temp = src.substr(i - 2, 2);
             // 
@@ -38,6 +40,24 @@ public:
         return dp[sLen];
     }
 };
+
+class Solution2 {
+public:
+    int translateNum(int num) {
+        std::function<int(int)> backtrack = [&](int num) {
+            if (num < 10) {
+                return 1;
+            }
+            if (num % 100 < 26 && num % 100 > 9) {
+                return backtrack(num / 100) + backtrack(num / 10);
+            } else {
+                return backtrack(num / 10);
+            }
+        };
+
+        return backtrack(num);
+    }
+}
 }
 
 int main(int argc, char **argv) {

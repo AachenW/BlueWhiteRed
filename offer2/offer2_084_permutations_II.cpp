@@ -2,6 +2,9 @@
 #include <iostream>
 #include <algorithm>
 #include <limits.h>
+#include <functional>
+#include <unordered_set>
+
 /*
 @
 LeetCode 剑指offerⅡ
@@ -57,6 +60,38 @@ private:
     }
 private:
     std::vector<std::vector<int>> ans;
+};
+
+class Solution2 {
+public:
+    std::vector<std::vector<int>> permuteUnique(std::vector<int> &nums) {
+        int nSize = nums.size();
+        if (0 == nSize) {
+            return {};
+        }
+
+        std::vector<std::vector<int>> ans;
+        std::function<void(int)> backtrack = [&](int idx) {
+            if (idx == nSize) {
+                ans.emplace_back(nums);
+                return;
+            }
+            
+            std::unordered_set<int> st;
+            for (int i = idx; i < nSize; ++i) {
+                if (!st.count(nums[i])) {
+                    st.insert(nums[i]);
+                    std::swap(nums[idx], nums[i]);
+                    backtrack(idx + 1);
+                    std::swap(nums[idx], nums[i]);
+                }
+            }
+        };
+
+        backtrack(0);
+
+        return ans;
+    }
 };
 }
 

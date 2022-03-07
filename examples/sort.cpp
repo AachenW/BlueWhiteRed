@@ -123,12 +123,15 @@ void mergeSort(std::vector<int> nums) {
 
 // 对有一定顺序的堆，当前第i个结点取根左右的最大值（这个操作称heapfiy）
 void heapify(std::vector<int> &nums, int n, int i) {
+    if (i >= n) {
+        return;
+    }
     int left = i * 2 + 1, right = i * 2 + 2;
     int max = i;
-    if (left < right && nums[left] > nums[right]) {
+    if (left < n && nums[left] > nums[max]) {
         max = left;
     }
-    if (left > right && nums[left] < nums[right]) {
+    if (right < n && nums[left] < nums[max]) {
         max = right;
     }
     if (max != i) {
@@ -139,8 +142,9 @@ void heapify(std::vector<int> &nums, int n, int i) {
 
 // 建立大根堆，从树的倒数第二层第一个结点开始，对每个结点进行heapify操作，然后向上走
 void heapify_build(std::vector<int> &nums, int n) {
-    int temp = (n - 2) / 2;         // 树的倒数第二层第一个结点
-    for (int i = temp; i >= 0; --i) {
+    int last_node = n - 1;
+    int parent = (last_node - 1) / 2;         // 树的倒数第二层第一个结点
+    for (int i = parent; i >= 0; --i) {
         heapify(nums, n, i);
     }
 }
@@ -153,5 +157,29 @@ void heapify_sort(std::vector<int> &nums, int n) {
         heapify(nums, n - i - 1, 0);
     }
 }
+
+
+// 希尔排序
+void shellSortCore(std::vector<int> &nums, int gap, int i) {
+    int inserted = nums[i];
+    int j = 0;
+    // 插入时按组进行插入
+    for (j = i - gap; j >= 0 && inserted < nums[j]; j-= gap) {
+        nums[j + gap] = nums[j];
+    }
+    nums[j + gap] = inserted;
+}
+
+void sheelSort(std::vector<int> nums) {
+    int len = nums.size();
+    // 进行分组，最开始的时候，gap为数组长度的一半
+    for (int gap = len / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < len; ++i) {
+            shellSortCore(nums, gap, i);
+        }
+    }
+}
+
+// 归并排序
 
 }

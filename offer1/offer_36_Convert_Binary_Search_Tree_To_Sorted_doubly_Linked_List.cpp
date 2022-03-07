@@ -74,4 +74,36 @@ private:
     Node *pre{nullptr};
     Node *head{nullptr};
 };
+
+class Solution2 {
+public:
+    Node* Convert(Node* pRootOfTree) {
+        std::vector<std::pair<Node*, int>> stk;
+        stk.emplace_back(std::make_pair(pRootOfTree, false));
+        Node *prev = nullptr;
+        Node *head = nullptr;
+        while (!stk.empty()) {
+            auto [node, visited] = stk.back();
+            stk.pop_back();
+            if (nullptr == node) {
+                continue;
+            }
+            if (visited) {
+                if (nullptr == prev) {
+                    head = node;
+                } else {
+                    prev->right = node;
+                }
+                node->left = prev;
+                prev = node;
+            } else {
+                stk.emplace_back(std::make_pair(node->right, false));
+                stk.emplace_back(std::make_pair(node, true));
+                stk.emplace_back(std::make_pair(node->left, false));
+            }
+        }
+        
+        return head;
+    }
+};
 }

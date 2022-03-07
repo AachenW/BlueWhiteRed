@@ -1,0 +1,5 @@
+git add .
+git commit -m "time"
+git add origin master
+
+git branch // 查看分支

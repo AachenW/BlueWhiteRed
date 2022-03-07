@@ -39,18 +39,29 @@ private:
             return first;
         }
     }
+};
 
-    int binarySearch(std::vector<int> &nums, int target, bool lower) {
-        int lo = 0, hi = (int)nums.size() - 1, ans = (int)nums.size();
-        while (lo < hi) {
-            int mid = (lo + hi) >> 1;
-            if (nums[mid] < target) {
-                lo = mid + 1;
+class Solution2 {
+public:
+    int search(std::vector<int>& nums, int target) {
+        int upper = lowerBound(nums, target + 1);
+        int lower = lowerBound(nums, target);
+
+        return upper - lower;
+    }
+
+private:
+    int lowerBound(std::vector<int> &nums, int target) {
+        int lo = 0, hi = nums.size() - 1;
+        while (lo <= hi) {
+            int mid = (lo + hi) / 2;
+            if (nums[mid] >= target) {
+                hi = mid - 1;
             } else {
-                hi = mid;
+                lo = mid + 1;
             }
         }
-        return lo;
+        return hi;
     }
 };
 }

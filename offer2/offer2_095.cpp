@@ -25,6 +25,7 @@ public:
         int m = text1.length(), n = text2.length();
 
         // initialization
+        // dp[i][j] 表示 text1[0:i] 和 text2[0:j] 的最长公共子序列的长度。
         std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1, 0));
         
         // states transfer

@@ -26,6 +26,7 @@ SinglePatternHungry* SinglePatternHungry::getInstance() {
     return p;
 }
 
+// 懒汉模式
 class SinglePatternLazy {
 private:
     static SinglePatternLazy *p;
@@ -48,7 +49,6 @@ SinglePatternHungry* SinglePatternHungry::p = nullptr;
 SinglePatternHungry* SinglePatternHungry::getInstance() {
     if (nullptr == p) {
         return new SinglePatternHungry();
-
     }
     return p;
 }

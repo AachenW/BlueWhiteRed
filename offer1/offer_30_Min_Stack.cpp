@@ -53,6 +53,59 @@ public:
         return stack2.back();
     }
 };
+
+class MinStack {
+    // 我们每次存入的是 原来值 - 当前最小值。
+    // 当原来值大于等于当前最小值的时候，我们存入的肯定就是非负数，所以出栈的时候就是 栈中的值 + 当前最小值 。
+    // 当原来值小于当前最小值的时候，我们存入的肯定就是负值，此时的值我们不入栈，用 min 保存起来，同时将差值入栈。
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+    }
+    
+    void push(int x) {
+        if (stack.empty()) {
+            stack.emplace_back(0);
+            minValue = x;
+        } else {
+            // 数值没有限制的话，差值的计算可能会溢出。
+            stack.emplace_back(x - minValue);
+            if (x < minValue) {
+                minValue = x;
+            }
+        }
+    }
+    
+    void pop() {
+        if (stack.empty()) {
+            return;
+        }
+
+        long long pop = stack.back();
+        stack.pop_back();
+        if (pop < 0) {
+            // 弹出的是负值, 说明之前对min值进行了更新。入栈元素 - min = 栈顶元素，入栈元素其实就是当前的min值，所以更新前的min就等于入栈元素-栈顶元素
+            minValue = pop - minValue;
+        }
+    }
+    
+    int top() {
+        long long top = stack.back();
+        if (top < 0) {
+            return (int)minValue;   // 负数的话，出栈的值保存在 min 中
+        } else {
+            return (int)(top + minValue);   // 出栈元素加上最小值即可
+        }
+    }
+    
+    int min() {
+        return (int)minValue;
+    }
+
+private:
+    long long minValue;
+    std::deque<int> stack;
+};
 }
 
 
