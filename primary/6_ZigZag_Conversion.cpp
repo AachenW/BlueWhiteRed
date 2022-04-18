@@ -33,6 +33,30 @@ public:
         return ans;
     }
 };
+
+class Solution2 {
+public:
+    std::string convert(std::string s, int numRows) {
+        int sLen = s.length();
+        std::vector<std::string> vs(numRows, "");
+        int idx = 0;
+        while (idx < sLen) {
+            for (int j = 0; j < numRows && idx < sLen; ++j) {
+                vs[j].push_back(s[idx++]);
+            }
+
+            for (int j = numRows - 2; j >= 1 && idx < sLen; --j) {
+                vs[j].push_back(s[idx++]);
+            }
+        }
+
+        std::string ans;
+        for (const auto &v: vs) {
+            ans += v;
+        }
+        return ans;
+    }
+};
 }
 
 int main(int argc, char **argv) {

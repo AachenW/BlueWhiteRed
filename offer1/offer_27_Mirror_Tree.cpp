@@ -33,4 +33,31 @@ public:
         return root;
     }
 };
+
+class Solution2 {
+public:
+    TreeNode* mirrorTree(TreeNode *root) {
+        if (nullptr == root) {
+            return nullptr;
+        }
+
+        std::deque<TreeNode*> que;
+        que.emplace_back(root);
+
+        while (!que.empty()) {
+            TreeNode *node = que.front(); que.pop_front();
+            if (nullptr != node->left) {
+                que.emplace_back(node->left);
+            }
+            if (nullptr != node->right) {
+                que.emplace_back(node->right);
+            }
+            TreeNode *tmp = node->left;
+            node->left = node->right;
+            node->right = tmp;
+        }
+
+        return root;
+    }
+};
 }

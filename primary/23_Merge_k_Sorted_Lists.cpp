@@ -86,22 +86,16 @@ public:
 
 class Solution3 {
 public:
-    struct Status {
-        int val;
-        ListNode *ptr;
-
-        Status(int value, ListNode *node) : val(value), ptr(node) {}
-        bool operator < (const Status &rhs) const {
-            return this->val > rhs.val;
-        }
-    };
-
     ListNode* mergeKLists(std::vector<ListNode*> &lists) {
-        std::priority_queue<Status> pq;
+        auto cmp = [](ListNode *node1, ListNode *node2) {
+            return node1->val > node2->val;
+        };
+
+        std::priority_queue<ListNode*, std::vector<ListNode*>, decltype(cmp)> pq(cmp);
 
         for (const auto &list: lists) {
             if (nullptr != list) {
-                pq.push({list->val, list});
+                pq.emplace(list);
             }
         }
 
@@ -109,12 +103,11 @@ public:
         ListNode *tail = dummyNode;
         
         while (!pq.empty()) {
-            auto f = pq.top();
-            pq.pop();
-            tail->next = f.ptr;
+            auto node = pq.top(); pq.pop();
+            tail->next = node;
             tail = tail->next;
-            if (nullptr != f.ptr->next) {
-                pq.push({f.ptr->next->val, f.ptr->next});
+            if (nullptr != node->next) {
+                pq.emplace(node->next);
             }
         }
         return dummyNode->next;

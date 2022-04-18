@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../lib/BinaryTree.h"
 #include "limits.h"
+#include <functional>
 
 /*
 @

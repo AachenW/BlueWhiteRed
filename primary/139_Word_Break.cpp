@@ -79,18 +79,39 @@ public:
         }
 
         int sLen = s.length();
-        std::vector<int> dp(sLen + 1, 0);           //dp[i]表示s[i,n-1]能否由词典单词拆分
-        dp[sLen] = 1;
-        for (int i = sLen - 1; i >= 0; --i) {
-            for (int j = i; j < sLen; ++j) {
-                if (dp[j + 1] && dictSet.find(s.substr(i, j - i + 1)) != dictSet.end()) {
+        std::vector<int> dp(sLen + 1, 0);   //dp[i]表示s中前i个字符能否由词典单词拆分
+        dp[0] = 1;  // 空串可以被拆分
+        for (int i = 1; i <= sLen; ++i) {
+            for (int j = 0; j <= i; ++j) {
+                if (dp[j] && dictSet.count(s.substr(j, i - j))) {
                     dp[i] = 1;
                     break;
                 }
             }
         }
 
-        return dp[0];
+        return dp[sLen];
+    }
+};
+
+class Solution3 {
+public:
+    bool wordBreak(std::string s, std::vector<std::string>& wordDict) {
+        int sLen = s.length();
+
+        std::vector<int> dp(sLen + 1, 0);
+        dp[0] = 1;
+
+        for (int i = 1; i <= sLen; ++i) {
+            for (auto &&word: wordDict) {
+                int wLen = word.length();
+                if (i >= wLen && s.substr(i - wLen, wLen) == word) {
+                    dp[i] = dp[i - wLen] | dp[i];
+                }
+            }
+        }
+
+        return dp[sLen];
     }
 };
 }

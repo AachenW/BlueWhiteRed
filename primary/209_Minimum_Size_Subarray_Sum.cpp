@@ -52,7 +52,7 @@ public:
         
         while (hi < nSize) {
             sum += nums[hi];
-            while (sum >= target) {
+            while (sum >= s) {
                 ans = std::min(ans, hi - lo + 1);
                 sum -= nums[lo];
                 ++lo;

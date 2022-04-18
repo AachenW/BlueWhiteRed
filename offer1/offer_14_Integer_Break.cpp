@@ -18,8 +18,9 @@ public:
         for (int i = 2; i < n; ++i) {
             int curMax = 0;
             for (int j = 1; j < i; ++j) {
-                dp[i] = std::max(curMax, std::max(j * (i - j), j * dp[i - j]));
+                curMax = std::max(curMax, std::max(j * (i - j), j * dp[i - j]));
             }
+            dp[i] = curMax;
         }
 
         return dp[n];

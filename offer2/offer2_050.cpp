@@ -34,7 +34,10 @@ public:
         if (nullptr == root) {
             return 0;
         }
-        return backtrack(root, targetSum);
+        int ret = backtrack(root, targetSum);
+        ret += pathSum(root->left, targetSum);
+        ret += pathSum(root->right, targetSum);
+        return ret;
     }
 
     int backtrack(TreeNode *node, int targetSum) {
@@ -47,6 +50,7 @@ public:
         }
         ret += backtrack(node->left, targetSum - node->val);
         ret += backtrack(node->right, targetSum - node->val);
+        return ret;
     }
 };
 

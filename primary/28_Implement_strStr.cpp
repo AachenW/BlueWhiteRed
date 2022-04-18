@@ -1,17 +1,4 @@
-#include <cstdio>
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <set>
-#include <algorithm>
-#include <queue>
-#include <ctime>
-#include <map>
-#include <unordered_set>
-#include <unordered_map>
-#include <cstdlib>
-#include <numeric>
+#include <bits/stdc++.h>
 
 /*
 @

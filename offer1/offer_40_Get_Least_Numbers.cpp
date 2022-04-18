@@ -70,30 +70,28 @@ public:
 class Solution2{
 public:
     std::vector<int> getLeastNumbers(std::vector<int>& arr, int k) {
-        auto cmp = [](const int num1, const int num2) {
-            return num1 < num2;
-        };
-        std::priority_queue<int, std::vector<int>, decltype(cmp)> pq(cmp);
+        int aSize = arr.size();
+        std::priority_queue<int> pq;
 
         std::vector<int> ans;
-        for (const auto &num: arr) {
-            if (pq.size() >= k) {
-                if (pq.top() > num) {
-                    pq.pop();
-                    pq.emplace(num);
-                }
-            } else {
-                pq.emplace(num);
+        for (int i = 0; i < k; ++i) {
+            pq.emplace(arr[i]);
+        }
+
+        for (int i = k; i < aSize; ++i) {
+            if (pq.top() > arr[i]) {
+                pq.pop();
+                pq.emplace(arr[i]);
             }
         }
-        
+
+        std::vector<int> ans;
         while (!pq.empty()) {
             ans.emplace_back(pq.top());
             pq.pop();
         }
 
         return ans;
-
     }
 };
 }

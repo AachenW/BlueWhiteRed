@@ -29,7 +29,7 @@ public:
         std::unordered_set<char> occ;
         int n = s.size();
         // 右指针，初始值为-1，相当于我们在字符串的左边界的左侧，还没开始移动
-        int rk = -1, ans = 0;
+        int rk = 0, ans = 0;
         // 枚举左指针的位置，初始值隐性地表示为-1
         for (int i = 0; i < n; ++i) {
             if (i != 0) {
@@ -37,13 +37,13 @@ public:
                 occ.erase(s[i - 1]);
             }
             // 当右指针rk + 1没到右边界且s[rk+1]没有重复
-            while (rk + 1 < n && !occ.count(s[rk + 1])) {
+            while (rk < n && !occ.count(s[rk])) {
                 // 不断地移动右指针
-                occ.insert(s[rk + 1]);
+                occ.insert(s[rk]);
                 ++rk;
             }
             // 第 i 到 rk 个字符时一个极长的无重复字符串
-            ans = std::max(ans, rk - i + 1);
+            ans = std::max(ans, rk - i);
         }
         return ans;
     }
@@ -79,6 +79,7 @@ public:
         if (0 == sLen) {
             return 0;
         }
+        // 哈希表统计字符 s[j] 最后一次出现的索引
         std::unordered_map<char, int> cntMap;
         int lo = -1, maxLen = 0;
         for (int hi = 0; hi < sLen; ++hi) {

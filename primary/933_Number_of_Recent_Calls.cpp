@@ -11,7 +11,7 @@ author: edinw
 namespace leetcode_cpp {
 class RecentCounter {
 public:
-    RecentCounter {}
+    RecentCounter(){}
 
     int ping(int t) {
         que.emplace_back(t);

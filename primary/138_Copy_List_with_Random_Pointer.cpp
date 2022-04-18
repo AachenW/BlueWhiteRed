@@ -78,4 +78,24 @@ public:
         return newhead;
     }
 };
+
+class Solution3 {
+public:
+    Node* copyRandomList(Node* head) {
+        std::unordered_map<Node*, Node*> nodeMap;
+
+        Node *node = head;
+        while (nullptr != node) {
+            nodeMap[node] = new Node(node->val);
+            node = node->next;
+        }
+        node = head;
+        while (nullptr != node) {
+            nodeMap[node]->next = nodeMap[node->next];
+            nodeMap[node]->random = nodeMap[node->random];
+            node = node->next;
+        }
+        return nodeMap[head];
+    }
+};
 }

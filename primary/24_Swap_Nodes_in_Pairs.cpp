@@ -22,4 +22,23 @@ class Solution {
         return newNode;
     }
 };
+
+class Solution {
+public:
+    ListNode* swapPairs(ListNode *head) {
+        ListNode *dummyHead = new ListNode(-1);
+        dummyHead->next = head;
+        ListNode *curr = dummyHead;
+        while (nullptr != curr->next && nullptr != curr->next->next) {
+            ListNode *node1 = curr->next;
+            ListNode *node2 = curr->next->next;
+            curr->next = node2;
+            node1->next = node2->next;
+            node2->next = node1;
+            curr = node1;
+        }
+
+        return dummyHead->next;
+    }
+};
 }

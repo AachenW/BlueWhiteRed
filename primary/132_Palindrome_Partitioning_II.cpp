@@ -50,6 +50,36 @@ public:
         return dp[sLen - 1];
     }
 };
+
+class Solution2 {
+public:
+    int minCut(std::string s) {
+        int sLen = s.length();
+
+        // 每个子串成为回文串的最少分割次数
+        std::vector<int> cuts(sLen + 1, 0);
+
+        for (int i = 0; i <= sLen; ++i) {
+            cuts[i] = i - 1;
+        }
+
+        int left = 0, right = 0;
+        // s[i] 为回文子串的中心
+        for (int i = 0; i < sLen; ++i) {
+            left = i, right = i;
+            while(left >= 0 && right < sLen && s[left--] == s[right++]) {
+                cuts[right] = std::min(cuts[right], cuts[left + 1] + 1);
+            }
+            
+            left = i, right = i + 1;
+            while(left >= 0 && right < sLen && s[left--] == s[right++]) {
+                cuts[right] = std::min(cuts[right], cuts[left + 1] + 1);
+            }
+        }
+
+        return cuts[sLen];
+    }
+};
 }
 
 int main(int argc, char **argv) {

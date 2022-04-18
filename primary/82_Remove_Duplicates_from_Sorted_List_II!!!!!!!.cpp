@@ -40,7 +40,11 @@ public:
             }
         }
 
-        return dummyNode->next;
+        head = dummyNode->next;
+        delete dummyNode;
+        dummyNode = nullptr;
+        
+        return head;
     }
 };
 }

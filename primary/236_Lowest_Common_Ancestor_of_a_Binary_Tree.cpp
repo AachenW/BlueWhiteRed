@@ -25,23 +25,23 @@ namespace leetcode_cpp {
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
-        TreeNode *ans {nullptr};
-        std::function<bool(TreeNode*, TreeNode*, TreeNode*)> backtrack;
-        backtrack = [&] (TreeNode *root, TreeNode *p, TreeNode *q) -> bool {
-            if (nullptr == root) {
-                return false;
-            }
-            bool leftSubTree = backtrack(root->left, p, q);
-            bool rightSubTree = backtrack(root->right, p, q);
-            if ((leftSubTree && rightSubTree) || ((root->val == p->val || root->val == q->val) && (leftSubTree || rightSubTree))) {
-                ans = root;
-            }
-            return leftSubTree || rightSubTree || (root->val == p->val || root->val == q->val);
-        };
+        if (nullptr == root || root == p || root == q) {
+            return root;
+        }
 
-        backtrack(root, p, q);
-        
-        return ans;
+        TreeNode *leftSub = lowestCommonAncestor(root->left, p, q);
+        TreeNode *rightSub = lowestCommonAncestor(root->right, p, q);
+        if (nullptr == leftSub && nullptr == rightSub) {
+            return nullptr;
+        }
+        if (nullptr == leftSub) {
+            return rightSub;
+        }
+        if (nullptr == rightSub) {
+            return leftSub;
+        }
+
+        return root;
     }
 };
 }

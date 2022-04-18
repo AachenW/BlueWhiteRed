@@ -24,7 +24,6 @@ public:
                 cnt += nums[i] <= mid;
             }
             // 假设我们重复的数是 target，那么 [1,target−1]里的所有数满足 cnt[i]≤i，[target,n] 里的所有数满足 cnt[i]>i
-
             if (cnt <= mid) {
                 lo = mid + 1;
             } else {
@@ -33,6 +32,28 @@ public:
             }
         }
         return ans;
+    }
+};
+
+class Solution2 {
+public:
+    int findDuplicate(std::vector<int> &nums) {
+        if (nums.size() > 1) {
+            int slow = nums[0], fast = nums[nums[0]];
+            while (slow != fast) {
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            }
+
+            fast = 0;
+            while (fast != slow) {
+                fast = nums[fast];
+                slow = nums[slow];
+            }
+
+            return slow;
+        }
+        return -1;
     }
 };
 }

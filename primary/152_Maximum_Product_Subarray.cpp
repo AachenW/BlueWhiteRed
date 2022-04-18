@@ -74,6 +74,30 @@ public:
         return ans;
     }
 };
+
+class Solution4 {
+public:
+    int maxProduct(std::vector<int> &nums) {
+        // store the result that is the max we have found so far
+        int r = nums[0];
+        int nSize = nums.size();
+        // imax/imin stores the max/min product of subarray that ends with the current number nums[i];
+        for (int i = 1, imax = r, imin = r; i < nSize; ++i) {
+            // multiplied by a negative makes big number smaller, small number bigger, so we redefine the extremums by swapping them
+            if (nums[i] < 0) {
+                std::swap(imax, imin);
+            }
+
+            // max/min product for the current number is either the current number itself, or the max/min by the previous number times the current one
+            imax = std::max(nums[i], imax * nums[i]);
+            imin = std::min(nums[i], imin * nums[i]);
+
+            r = std::max(r, imax);
+        }
+
+        return r;
+    }
+};
 }
 
 int main(int argc, char **argv) {

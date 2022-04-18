@@ -24,7 +24,7 @@ public:
 
         backtrack(root);
 
-        return ans;
+        return ans - 1; // 返回直径
     }
 
 private:

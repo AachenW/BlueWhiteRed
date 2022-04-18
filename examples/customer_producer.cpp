@@ -1,12 +1,49 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <semaphore.h>
+#include <pthread.h>
 
 #define MAX 100
 
+// 《Unix 环境高级编程》中第11章线程关于pthread_cond_wait的介绍中有一个生产者-消费者的例子P311
+typedef struct msg {
+    struct msg *m_next;
+    /* value */
+}msg;
+
+struct msg* workq;
+pthread_cond_t qready = PTHREAD_COND_INITIALIZER;
+pthread_mutex_t qlock = PTHREAD_MUTEX_INITIALIZER;
+
+void process_msg() {
+    msg* mp;
+
+    for (;;) {
+        pthread_mutex_lock(&qlock);
+        while (nullptr == workq) {
+            pthread_cond_wait(&qread, &qlock);
+        }
+        mp = workq;
+        workq = mp->next;
+        pthread_mutex_lock(&qlock);
+        // now process the message mp;
+    }
+}
+
+void enqueue_msg(msg* mp) {
+    pthread_mutex_lock(&qlock);
+    mp->m_next = workq; // 头插法
+    workq = mp;
+    pthread_mutex_unlock(&qlock);
+    /** 此时另外一个线程在signal之前，执行了process_msg，刚好把mp元素拿走*/
+    pthread_cond_signal(&qready);
+    /** 此时执行signal, 在pthread_cond_wait等待的线程被唤醒，但是mp元素已经被另外一个线程拿走，所以，workq还是NULL ,因此需要继续等待*/
+}
+
+
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-sem_t full;
-sem_t empty;
+sem_t full = 0;
+sem_t empty = MAX * 2;
 
 int top = 0;
 int bottom = 0;

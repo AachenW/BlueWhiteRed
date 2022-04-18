@@ -1,6 +1,5 @@
-#include <iostream>
-#include <vector>
-#include <deque>
+#include <bits/stdc++.h>
+
 /*
 @
 projetc: leetcode

@@ -18,11 +18,11 @@ public:
         int lo = 0, hi = sLen - 1;
 
         while (lo < hi) {
-            while (lo < hi && !isalpha(s[lo])) {
+            while (lo < hi && !isalnum(s[lo])) {
                 ++lo;
             }
 
-            while (lo < hi && !isalpha(s[hi])) {
+            while (lo < hi && !isalnum(s[hi])) {
                 --hi;
             }
 

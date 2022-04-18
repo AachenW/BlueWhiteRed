@@ -31,13 +31,11 @@ public:
                 return;
             }
 
-            int prev = INT_MIN;
             for (int i = 0; i < nSize; ++i) {
                 // 保证相同的数字都相邻，然后每次填入的数一定是这个数所在重复数集合中「从左往右第一个未被填过的数字」
                 if (visited[i] || (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1])) {
                     continue;
                 }
-                prev = nums[i];
                 candidates.emplace_back(nums[i]);
                 visited[i] = 1;
                 backtrack(idx + 1);

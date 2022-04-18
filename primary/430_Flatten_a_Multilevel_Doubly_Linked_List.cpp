@@ -1,7 +1,5 @@
-#include <vector>
-#include <string>
-#include "limits.h"
-#include <iostream>
+#include <bits/stdc++.h>
+
 /*
 @
 LeetCode 剑指offerII
@@ -22,6 +20,7 @@ namespace leetcode_cpp {
 class Solution {
 public:
     Node* flatten(Node *head) {
+        Node *ans = nullptr;
         std::function<void(Node*)> backtrack = [&] (Node *node) -> Node* {
             if (nullptr == node) {
                 return;
@@ -44,7 +43,6 @@ public:
 
         };
         
-        Node *ans = nullptr;
         backtrack(head);
 
         return ans;

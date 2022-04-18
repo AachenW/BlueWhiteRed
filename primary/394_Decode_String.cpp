@@ -70,6 +70,42 @@ private:
         return ret;
     }
 };
+
+class Solution {
+public:
+    std::string decodeString(std::string s) {
+        std::vector<std::string> stack;
+        std::string curNum = "", curStr = "";
+
+        for (const char c: s) {
+            if ('[' == c) {
+                stack.emplace_back(curStr);
+                stack.emplace_back(curNum);
+                curStr = "";
+                curNum = "";
+            } else if (']' == c) {
+                std::string num = stack.back();  stack.pop_back();
+                std::string prevStr = stack.back(); stack.pop_back();
+                curStr = prevStr + nTimesString(curStr, std::stoi(num));
+            } else if (isdigit(c)) {
+                curNum += c;
+            } else {
+                curStr += c;
+            }
+        }
+
+        return curStr;
+    }
+
+private:
+    std::string nTimesString(std::string s, int n){
+        std::string ans = "";
+        for (int i = 0; i < n; i++) {
+            ans += s;
+        }
+        return ans;
+    }
+};
 }
 
 int main(int argc, char **argv) {

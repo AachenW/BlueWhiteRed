@@ -110,12 +110,16 @@ void mergeSort(std::vector<int> &nums, std::vector<int> &temp, int lo, int hi) {
     while (start2 <= end2) {
         temp[idx++] = nums[start2++];
     }
+
+    for (idx = lo; idx < hi; idx++)  {
+        nums[idx] = temp[idx];
+    }
 }
 
 void mergeSort(std::vector<int> nums) {
     std::vector<int> copyNums(nums);//这里要借助一个一模一样的数组的
     mergeSort(nums, copyNums, 0, nums.size() - 1);
-    nums.assign(copyNums.begin(), copyNums.end());//到最后copy数组是排序好的，记得要赋值一下
+    nums.assign(copyNums.begin(), copyNums.end());  //到最后copy数组是排序好的，记得要赋值一下
     for (auto a : nums) {
         std::cout << a << " ";
     }
@@ -131,7 +135,7 @@ void heapify(std::vector<int> &nums, int n, int i) {
     if (left < n && nums[left] > nums[max]) {
         max = left;
     }
-    if (right < n && nums[left] < nums[max]) {
+    if (right < n && nums[right] > nums[max]) {
         max = right;
     }
     if (max != i) {
@@ -153,7 +157,7 @@ void heapify_build(std::vector<int> &nums, int n) {
 void heapify_sort(std::vector<int> &nums, int n) {
     heapify_build(nums, n);
     for (int i = 0; i < n; ++i) {
-        std::swap(nums.front(), nums[n - i - 1]);
+        std::swap(nums[0], nums[n - i - 1]);
         heapify(nums, n - i - 1, 0);
     }
 }
@@ -179,7 +183,4 @@ void sheelSort(std::vector<int> nums) {
         }
     }
 }
-
-// 归并排序
-
 }

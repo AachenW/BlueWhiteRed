@@ -1,3 +1,45 @@
+#include <stdio.h>
+
+template <class T, class Alloc = std::alloc>
+class vector {
+public:
+    typedef T           value_type;
+    typedef value_type* pointer;
+    typedef value_type* iterator;
+    typedef value_type& reference;
+    typedef size_t      size_type;
+    typedef ptrdiff_t   difference_type;
+
+protected:
+    typedef simple_alloc<value_type, Alloc> data_allocator;
+
+    iterator start;             // 表示目前使用空间的头
+    iterator finish;            // 表示目前使用空间的尾
+    iterator end_of_storage;    // 表示目前可用空间的尾
+
+    // ...
+};
+
+template <class T>
+struct __list_node {
+    typedef void* void_pointer;
+    void_pointer prev;  // 类型为void*，其实可以设为__list_node<T>*
+    void_pointer next;
+    T data;
+};
+
+template <class T, class Alloc = alloc>
+class list {
+protected:
+    typedef __list_node<T> list_node;
+public:
+    typedef list_node* link_type;
+
+protected:
+    link_type node; // 只要一个指针，就可以表示整个环状双向链表
+};
+
+
 template <typename T>
 class smart_pointer {
 private:
@@ -103,7 +145,7 @@ public:
     // ...
     iterator begin();
     iterator end();
-}
+};
 
 struct __deque_iterator {
     // ...
@@ -112,4 +154,5 @@ struct __deque_iterator {
     T *last;
     map_pointer node;
     // ... 
-}
+};
+

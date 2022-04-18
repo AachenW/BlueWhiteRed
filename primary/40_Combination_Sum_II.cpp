@@ -14,22 +14,28 @@ author: edinw
 namespace leetcode_cpp {
 class Solution {
 public:
-    std::vector<std::vector<int>> combinationSum2(std::vector<int> &candidates, int target) {
+    std::vector<std::vector<int>> combinationSum2(std::vector<int>& candidates, int target) {
+        int cSize = candidates.size();
         std::sort(candidates.begin(), candidates.end());
-        int nSize = candidates.size();
+
         std::vector<std::vector<int>> ans;
         std::vector<int> combination;
-        std::function<void(int, int)> backtrack = [&](int start, int sum) {
-            if (sum == target) {
+        std::function<void(int, int)> backtrack = [&] (int idx, int curr) {
+            if (curr == target) {
                 ans.emplace_back(combination);
                 return;
             }
 
-            for (int i = start; i < nSize; ++i) {
-                if (i > start && candidates[i] == candidates[i - 1]) {
+            if (curr > target || idx >= cSize) {
+                return;
+            }
+
+            for (int i = idx; i < cSize; ++i) {
+                if (i > idx && candidates[i - 1] == candidates[i]) {
                     continue;
                 }
-                int num = sum + candidates[i];
+
+                int num = curr + candidates[i];
                 if (num <= target) {
                     combination.emplace_back(candidates[i]);
                     backtrack(i + 1, num);

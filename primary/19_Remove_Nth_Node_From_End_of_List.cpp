@@ -33,21 +33,27 @@ namespace leetcode_cpp{
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* p = head, *q = head;
-        ListNode* k = nullptr;
-        while (n--) {
-            if ((p->next == nullptr) && (n > 0)) {
-                return nullptr;
+        ListNode *dummyNode = new ListNode(-1);
+        dummyNode->next = head;
+
+        ListNode *fast = dummyNode, *slow = dummyNode;
+        for (int i = 0; i < n; ++i) {
+            fast = fast->next;
+            if (nullptr == fast) {
+                return head;
             }
-            p = p->next;
         }
 
-        while(!p->next) {
-            k = q;
-            p = p->next;
-            q = q->next;
+        while (nullptr != fast->next) {
+            slow = slow->next;
+            fast = fast->next;
         }
-        k->next = q->next;
+
+        ListNode *deleteNode = slow->next;
+        slow->next = deleteNode->next;
+        head = dummyNode->next;
+        delete dummyNode;
+        dummyNode = nullptr;
         return head;
     }
 };

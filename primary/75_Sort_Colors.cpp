@@ -13,21 +13,19 @@ namespace leetcode_cpp {
 class Solution {
 public:
     void sortColors(std::vector<int> &nums) {
-        int nLen = nums.size();
-        int ptr = 0;
+        int nSize = nums.size();
+        int red = 0, white = 0, blue = nSize - 1;
 
-        // 第一次遍历中，将数组中所有的 0 交换到数组的头部
-        for (int i = 0; i < nLen; ++i) {
-            if (0 == nums[i]) {
-                std::swap(nums[i], nums[ptr]);
-                ++ptr;
-            }
-        }
-        // 在第二次遍历中，我们将数组中所有的 1 交换到头部的 0 之后
-        for (int i = ptr; i < nLen; ++i) {
-            if (1 == nums[i]) {
-                std::swap(nums[i], nums[ptr]);
-                ++ptr;
+        while (white <= blue) {
+            if (0 == nums[white]) { //  we swap with the red pointer and move both white and red pointer forward
+                std::swap(nums[red], nums[white]);
+                ++red;
+                ++white;
+            } else if (1 == nums[white]) {  // the element is already in correct place, so we don't have to swap, just move the white pointer forward.
+                ++white;
+            } else {    // If the white pointer is blue, we swap with the latest unclassified element.
+                std::swap(nums[white], nums[blue]);
+                --blue;
             }
         }
     }

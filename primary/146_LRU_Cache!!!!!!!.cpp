@@ -30,84 +30,85 @@ author: edinw
 
 namespace leetcode_cpp {
 struct DLinkedNode {
-    int _key, _value;
+    int key, val;
     DLinkedNode *prev;
     DLinkedNode *next;
-    DLinkedNode() : _key(0), _value(0), prev(nullptr), next(nullptr) {}
-    DLinkedNode(int key, int value) : _key(key), _value(value), prev(nullptr), next(nullptr) {}
+    DLinkedNode() : key(0), val(0), prev(nullptr), next(nullptr) {}
+    DLinkedNode(int _key, int _value) : key(key), val(_value), prev(nullptr), next(nullptr) {}
 };
 
 class LRUCache {
 public:
-    LRUCache(int capacity) : capacity(capacity), size(0) {
-        // 使用伪头部和伪尾部节点
-        head = new DLinkedNode();
-        tail = new DLinkedNode();
+    LRUCache(int capacity) {
+        head = new DLinkedNode(-1, -1);
+        tail = new DLinkedNode(-1, -1);
         head->next = tail;
         tail->prev = head;
+        cap = capacity;
     }
-
+    
     int get(int key) {
         if (!cache.count(key)) {
             return -1;
+        } else {
+            DLinkedNode *node = cache[key];
+            MoveToHead(node);
+            return node->val;
         }
-        DLinkedNode *node = cache[key];     // 如果key存在, 先通过哈希表定位, 再移到头部
-        moveToHead(node);
-        return node->_value;
     }
-
+    
     void put(int key, int value) {
         if (!cache.count(key)) {
-            DLinkedNode *node = new DLinkedNode(key, value);    // 如果key不存在，创建一个新的节点
-            cache[key] = node;  // 添加进哈希表
-            addToHead(node);    // 添加至双向链表的头部
-            if (size <= 0) {
-                DLinkedNode *removed = removeTail();            // 如果超出容量，删除双向链表的尾部节点
-                cache.erase(removed->_key);
-                delete removed;                                 // 删除哈希表中对应的项
-                removed = nullptr;
+            DLinkedNode *node = new DLinkedNode(key, value);
+            cache[key] = node;
+            addToHead(node);
+            if (cap <= 0) {
+                DLinkedNode *deleteNode = RemoveFromTail();
+                cache.erase(deleteNode->key);
+                delete deleteNode;
+                deleteNode = nullptr;
             } else {
-                --size;
+                --cap;
             }
         } else {
-            DLinkedNode *node = cache[key];                 // 如果key存在，先通过哈希表定位，再修改value，并移到头部
-            node->_value = value;
-            moveToHead(node);
+            DLinkedNode *node = cache[key];
+            node->val = value;
+            MoveToHead(node);
         }
     }
+
 private:
-    void moveToHead(DLinkedNode *node) {
-        if(node->prev == head) {
+    void addToHead(DLinkedNode *node) {
+        node->next = head->next;
+        head->next->prev = node;
+        node->prev = head;
+        head->next = node;
+    }
+
+    void MoveToHead(DLinkedNode *node) {
+        if (node->prev == head) {
             return;
         }
-        removeNode(node);
+        RemoveNode(node);
         addToHead(node);
     }
 
-    void removeNode(DLinkedNode *node) {
-        node->prev->next = node->next;
+    void RemoveNode(DLinkedNode *node) {
         node->next->prev = node->prev;
+        node->prev->next = node->next;
     }
 
-    void addToHead(DLinkedNode *node) {
-        node->prev = head;
-        node->next = head->next;
-        head->next = node;
-        node->next->prev = node;
-    }
-
-    DLinkedNode* removeTail() {
-        DLinkedNode *node = tail->prev;
-        removeNode(node);
-        return node;
+    DLinkedNode* RemoveFromTail() {
+        DLinkedNode *deleteNode = tail->prev;
+        RemoveNode(deleteNode);
+        return deleteNode;
     }
 
 private:
     std::unordered_map<int, DLinkedNode*> cache;
-    int size;
-    int capacity;
     DLinkedNode *head;
     DLinkedNode *tail;
+    int cap;
 };
 
 struct Node

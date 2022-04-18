@@ -20,16 +20,24 @@ author: edinw
 namespace leetcode_cpp {
 class Solution {
 public:
-    void moveZeroes(std::vector<int>& nums) {
-        int nSize = nums.size(), left = 0, right = 0;
-        while (right < nSize) {
-            if (nums[right]) {
-                std::swap(nums[left++], nums[right]);
-            }
-            ++right;
+    void moveZeroes(vector<int>& nums) {
+        int nSize = nums.size();
+        if (0 == nSize) {
+            return;
         }
 
-        return ;
+        int pos = 0;
+        for (int num: nums) {
+            if (0 != num) {
+                nums[pos++] = num;
+            }
+        }
+
+        for (int i = pos; i < nSize; ++i) {
+            nums[i] = 0;
+        }
+
+        return;
     }
 };
 }

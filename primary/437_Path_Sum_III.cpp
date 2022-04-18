@@ -1,4 +1,5 @@
 #include "../lib/BinaryTree.h"
+#include <bits/stdc++.h>
 
 /*
 @
@@ -27,8 +28,8 @@ public:
             if (root->val == targetSum) {
                 ++ret;
             }
-            ret += backtrack(root->left, targetSum - node->val);
-            ret += backtrack(root->right, targetSum - node->val);
+            ret += backtrack(root->left, targetSum - root->val);
+            ret += backtrack(root->right, targetSum - root->val);
             return ret;
         };
 

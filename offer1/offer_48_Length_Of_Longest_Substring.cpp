@@ -46,13 +46,17 @@ public:
             return 0;
         }
         std::unordered_map<char, int> idxMap;
+        // dp[j] 代表以字符 s[j] 为结尾的 “最长不重复子字符串” 的长度
         int ans = 0, dp = 0;
         for (int i = 0; i < sLen; ++i) {
             int index = idxMap.find(s[i]) != idxMap.end() ? idxMap[s[i]] : -1;
             idxMap[s[i]] = i;
+            // 当 dp[j - 1] < j - i，说明字符 s[i] 在子字符串 dp[j−1] 区间之外，则 dp[j] = dp[j - 1] + 1
             if (dp < i - index) {
                 dp += 1;
-            } else {
+            } 
+            // 当 dp[j−1]≥j−i ，说明字符 s[i] 在子字符串 dp[j−1] 区间之中 ，则 dp[j] 的左边界由 s[i] 决定，即 dp[j] = j - i
+            else {
                 dp = i - index;
             }
             ans = std::max(ans, dp);

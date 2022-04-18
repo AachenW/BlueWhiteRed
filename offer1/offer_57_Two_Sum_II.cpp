@@ -17,7 +17,6 @@ public:
         std::vector<std::vector<int>> ans;
         std::vector<int> tmp;
         int sum = left + right;
-        int idx = 0;
 
         auto insert = [] (std::vector<int> &nums, int lo, int hi) {
             for (int i = lo; i <= hi; ++i) {
