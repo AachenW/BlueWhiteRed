@@ -1,7 +1,5 @@
-#include <vector>
-#include <iostream>
-#include "../lib/BinaryTree.h"
-#include <sstream>
+#include <bits/stdc++.h>
+
 /*
 @
 project: leetcode
@@ -68,14 +66,15 @@ private:
         return true;
     }
 
-    void split(std::string &s, std::vector<std::string> &ip, char c) {
-        std::stringstream ss(s);
+    void split(std::string &strIn, std::vector<std::string> &ip, char delim) {
+        std::stringstream ss(strIn);
         std::string tmp;
 
-        while (getline(ss, tmp, c)) {
+        while (std::getline(ss, tmp, delim)) {
             ip.emplace_back(tmp);
         }
-        if (s.size() > 0 && s.back() == c) {
+
+        if (strIn.size() > 0 && strIn.back() == delim) {
             ip.push_back({});
         }
     }

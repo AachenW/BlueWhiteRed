@@ -21,17 +21,43 @@ author: edinw
 namespace leetcode_cpp {
 class Solution {
 public:
-    int countSubstring(std::string &s) {
+    int countSubstrings(std::string &s) {
         int sLen = s.length();
         int ans = 0;
 
+        auto palindrome = [&] (int lo, int hi) {
+            while (lo >= 0 && hi < sLen && s[lo] == s[hi]) {
+                --lo;
+                ++hi;
+                ++ans;
+            }
+        };
+        
         for (int i = 0; i < sLen; ++i) {
-            for (int j = 0; j <= 1; ++j) {
-                int lo = i;
-                int hi = i + j;
-                while (lo >= 0 && hi < sLen && s[lo] == s[hi]) {
-                    --lo;
-                    ++hi;
+            palindrome(i, i);
+            palindrome(i, i + 1);
+        }
+
+        return ans;
+    }
+};
+
+class Solution2 {
+public:
+    int countSubstrings(std::string &s) {
+        int sLen = s.length();
+        std::vector<std::vector<int>> dp(sLen, std::vector<int>(sLen));
+        int ans = 0;
+
+        for (int j=0; j<sLen; ++j) {
+            for (int i=0; i<=j; ++i) {
+                /*
+                // 1. 当只有一个字符时，比如 a 自然是一个回文串。
+                // 2. 当有两个字符时，如果是相等的，比如 aa，也是一个回文串。
+                // 3. 当有三个及以上字符时，比如 ababa 这个字符记作串 1，把两边的 a 去掉，也就是 bab 记作串 2，可以看出只要串2是一个回文串，那么左右各多了一个 a 的串 1 必定也是回文串。所以当 s[i]==s[j] 时，自然要看 dp[i+1][j-1] 是不是一个回文串。
+                */
+                if (s[i] == s[j] && (j - i < 2 || dp[i + 1][j - 1])) {
+                    dp[i][j] = 1;
                     ++ans;
                 }
             }
@@ -46,7 +72,7 @@ public:
 int main(int argc, char **argv) {
     std::string s{"aaa"};
 
-    std::cout << leetcode_cpp::Solution().countSubstring(s) << std::endl;
+    std::cout << leetcode_cpp::Solution2().countSubstrings(s) << std::endl;
 
     return 0;
 }

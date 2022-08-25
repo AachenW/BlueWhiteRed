@@ -19,7 +19,7 @@ public:
             return 0;
         }
         
-        std::function<int(TreeNode*, int)> backtrack = [&] (TreeNode *root, int targetSum) -> int {
+        std::function<int(TreeNode*, long long)> backtrack = [&] (TreeNode *root, long long targetSum) -> int {
             if (nullptr == root) {
                 return 0;
             }

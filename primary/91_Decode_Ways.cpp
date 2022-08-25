@@ -28,12 +28,44 @@ public:
         return dp[sLen];
     }
 };
+
+class Solution2 {
+public:
+    int numDecodings(std::string s) {
+        int sLen = s.length();
+        std::unordered_map<int, int> memo;
+
+        std::function<int(int)> dfs = [&] (int idx) -> int {
+            if (idx >= sLen) {
+                return 1;
+            }
+
+            if ('0' == s[idx]) {
+                return 0;
+            }
+
+            if (memo.find(idx) != memo.end()) {
+                return memo[idx];
+            }
+
+            int ret = dfs(idx + 1);
+            if (idx < sLen - 1 && ('1' == s[idx] || '2' == s[idx] && s[idx + 1] <= '6')) {
+                ret += dfs(idx + 2);
+            }
+
+            memo[idx] = ret;
+            return ret;
+        };
+
+        return dfs(0);
+    }
+};
 }
 
 int main(int argc, char **argv) {
     std::string s("11106");
 
-    std::cout << leetcode_cpp::Solution().numDecodings(s) << std::endl;
+    std::cout << leetcode_cpp::Solution2().numDecodings(s) << std::endl;
 
     return 0;
 }

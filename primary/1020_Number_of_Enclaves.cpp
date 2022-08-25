@@ -1,7 +1,4 @@
-#include <vector>
-#include <iostream>
-#include <functional>
-#include <deque>
+#include <bits/stdc++.h>
 
 namespace leetcode_cpp {
 class Solution {

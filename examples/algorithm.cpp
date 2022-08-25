@@ -53,3 +53,16 @@ int uppeBound(std::vector<int> &nums, int target) {
     
     return lo;
 }
+
+std::vector<std::string> stringSplit(const std::string& strIn, char delim) {
+    char* str = const_cast<char*>(strIn.c_str());
+    std::string s;
+    s.append(1, delim);
+    std::vector<std::string> elems;
+    char* splitted = strtok(str, s.c_str());
+    while (splitted != NULL) {
+        elems.push_back(std::string(splitted));
+        splitted = strtok(NULL, s.c_str());
+    }
+    return elems;
+}

@@ -1,9 +1,9 @@
 
-
+#include <bits/stdc++.h>
 
 /*
 @
-LeetCode 剑指offerⅡ
+LeetCode
 time: 2022-03-04 23:09:30
 author: edinw
 @
@@ -68,5 +68,40 @@ public:
         return head;
     
     }
+};
+
+class Solution2 {
+public:
+    Node* insert(Node *head, int insertVal) {
+        Node *node = new Node(insertVal);
+        if (nullptr == head) {
+            node->next = node;
+            return node;
+        }
+
+        if (head->next == head) {
+            head->next = node;
+            node->next = head;
+            return head;
+        }
+
+        Node *curr = head, *next = head->next;
+        while (next != head) {
+            if (insertVal >= curr->val && insertVal <= next->val) {
+                break;
+            }
+            if (curr->val > next->val) {
+                if (insertVal > curr->val || insertVal < next->val) {
+                    break;
+                }
+            }
+            curr = curr->next;
+            next = next->next;
+        }
+        curr->next = node;
+        node->next = next;
+        return head;
+    }
+
 };
 }

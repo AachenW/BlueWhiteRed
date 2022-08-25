@@ -21,7 +21,7 @@ author: edinw
 */
 
 namespace leetcode_cpp {
-class Solution {
+class Solution1_0 {
 public:
     //dp[i][0]表示前i个元素，最后一个元素为0的最小翻转次数；
     //dp[i][1]表示前i个元素，最后一个元素为1的最小翻转次数
@@ -43,6 +43,23 @@ public:
         int last = (sLength - 1) % 2;
 
         return std::min(dp[last][0], dp[last][1]);
+    }
+};
+
+class Solution1_1 {
+public:
+    int minFlipsMonoIncr(std::string s) {
+        int dp0 = 0, dp1 = 0;
+        for (char c: s) {
+            int dp0New = dp0, dp1New = std::min(dp0, dp1);
+            if ('1' == c) 
+                ++dp0New;
+            else 
+                ++dp1New;
+            dp0 = dp0New;
+            dp1 = dp1New;
+        }
+        return std::min(dp0, dp1);
     }
 };
 

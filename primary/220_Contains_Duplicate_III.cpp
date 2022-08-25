@@ -1,8 +1,4 @@
-#include <vector>
-#include <algorithm>
-#include <set>
-#include <iostream>
-#include "limits.h"
+#include <bits/stdc++.h>
 
 /*
 @

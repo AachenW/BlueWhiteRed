@@ -21,7 +21,7 @@ public:
     bool isInterleave(std::string s1, std::string s2, std::string s3) {
         int n = s1.size(), m = s2.size(), t = s3.size();
         
-        // 定义 f(i, j)f(i,j) 表示 s1的前i个元素和s2的前j个元素是否能交错组成s3的前i+j个元素
+        // 定义 f(i, j) 表示 s1的前i个元素和s2的前j个元素是否能交错组成s3的前i+j个元素
         auto f = std::vector<std::vector<int>> (n + 1, std::vector<int> (m + 1, false));
 
         if (n + m != t) {

@@ -24,29 +24,30 @@ public:
     int minEatingSpeed(std::vector<int> &piles, int h) {
         int lo = 1;
         int hi = *std::max_element(piles.begin(), piles.end());
-        while (lo <= hi) {
-            int mid = lo + ((hi - lo) >> 1);
-            if (countTime(piles, mid) <= h) {
-                if (mid == 1 || countTime(piles, mid - 1) > h) {
-                    return mid;
-                } else {
-                    hi = mid - 1;
-                }
+
+        int k = hi;
+        while (lo < hi) {
+            int speed = lo + ((hi - lo) >> 1);
+            long time = countTime(pile, speed);
+            if (time <= h) {
+                k = speed;
+                hi = speed;
             } else {
-                lo = mid + 1;
+                lo = speed + 1;
             }
         }
-        return -1;
+        return k;
     }
 
 private:
     int countTime(std::vector<int> &piles, int k) {
-        int t = 0;
+        long time = 0;
         for (const auto &bananas: piles) {
-            t += bananas / k;
-            t += (bananas % k) > 0;
+            // 计吃掉每堆香蕉的时间 
+            int curTime = (bananas + speed - 1) / speed;
+            time += curTime;
         }
-        return t;
+        return time;
     }
 };
 }
